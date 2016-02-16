@@ -1,4 +1,7 @@
 # 咸鱼
+[![npm](https://img.shields.io/npm/dt/xianyu.svg?style=flat-square)](https://www.npmjs.com/package/xianyu)
+[![npm](https://img.shields.io/npm/v/xianyu.svg?style=flat-square)](https://www.npmjs.com/package/xianyu)
+[![npm](https://img.shields.io/npm/l/xianyu.svg?style=flat-square)](https://www.npmjs.com/package/xianyu)
 
 > 人如果没有理想，那和咸鱼有什么区别？
 
@@ -42,8 +45,4 @@ npm i -g xianyu
     }
   }
 ```
-以上，除了 `entry` 即 webpack 的入口文件之外，均为可选
-
-
-
-
+以上，除了 `entry` 即 webpack 的入口文件之外，均为可选。
