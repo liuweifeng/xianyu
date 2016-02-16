@@ -32,6 +32,9 @@ npm i -g xianyu
 ```
   "xianyu": {
     "module": "m/article",
+    "port": "8080",
+    "devHost": "http://dev.weibo.cn",
+    "cdnHost": "//cdn.weibo.cn",
     "title" : "头条文章",
     "entry": {
       "enter" : "src/js/enter.js",
@@ -39,7 +42,7 @@ npm i -g xianyu
     }
   }
 ```
-
+以上，除了 `entry` 即 webpack 的入口文件之外，均为可选
 
 
 
