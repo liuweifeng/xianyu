@@ -30,7 +30,6 @@ npm i -g xianyu
 * 发布  
 `xianyu deploy`  
 构建 hash 后的文件到 .release 目录
-```
 
 ## 约定
 以上三个命令，均是在项目的根目录执行。约定 `src` 目录存放源码，`build` 存放构建完成的代码，`.release` 目录存放经过压缩混淆以及 MD5 改名之后的资源，可直接用于发布到 CDN。
@@ -38,6 +37,7 @@ npm i -g xianyu
 ## 配置
 根据「约定大于配置」的原则，此工具及工作流程中的大部分配置都是约定好的，开发者使用仅需要在自己项目的 `package.json` 里，添加`xianyu`配置字段来自定义。
 例如：
+
 ```
   "xianyu": {
     "module": "m/article",
