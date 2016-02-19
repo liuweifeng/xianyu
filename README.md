@@ -7,11 +7,13 @@
 
 这是一个「约定大于配置的」Webpack 工作流程，包含了开发、联调、发布的全生命周期。
 
-**开发过程中，API 会频繁修改，请勿使用**
+**此模块正在开发过程中，v1.0 正式发布之前，API 会频繁修改，请勿使用**
 
 ## 动机
 `webpack` 是目前最好的前端模块化解决方案，与 `babel` 结合，可无缝使用 ES6 新特性，与 `webpack-dev-server` 配合，又可实现开发过程中，代码热替换，极大地提升了开发体验。
 但是，要想打造一个适合自己团队使用的 `webpack.config.js` ，需要花费大量的时间来阅读文档，webpack 官方的文档并不是特别详细，有些配置项需要多次尝试揣摩才能找到正确的姿势；而且，由于依赖于 `babel` ，安装依赖的过程比较痛苦，尤其是像我们这样，项目的颗粒度比较细，每次新建一个项目都需要安装一大坨依赖的话，耗时且蛋疼。于是，我们总结出来一个**全局安装**、**基本无需配置** 的开发工具，来简化和规范大家日常的开发流程。
+
+目前在兼容手机微博开发流程的基础上，尽可能做到自定义和可扩展，如果您有任何建议，欢迎[开 `issue`](https://github.com/liuweifeng/xianyu/issues/new)。
 ## 安装
 这是一个全局命令行工具，安装一次，在不同的项目中使用时，不需要再次安装，等待漫长的 `npm install`。
 ```
@@ -23,16 +25,17 @@ npm i -g xianyu
 
 * 开发  
 `xianyu dev`  
-使用 `webpack-dev-server`，
+使用 `webpack-dev-server`，任何前端代码的修改都不需要刷新浏览器，都可以实时地在浏览器里更新。
 * 联调  
 `xianyu build`  
-构建文件到 `build`目录。
+构建文件到 `build`目录。方便与后端联调、测试。
 * 发布  
 `xianyu deploy`  
-构建 hash 后的文件到 .release 目录
+构建 hash 后的文件到 .release 目录，可直接发布到 CDN。同时生产版本号对应表，可做到前后端的分离上线。
 
 ## 约定
-以上三个命令，均是在项目的根目录执行。约定 `src` 目录存放源码，`build` 存放构建完成的代码，`.release` 目录存放经过压缩混淆以及 MD5 改名之后的资源，可直接用于发布到 CDN。
+* 以上三个命令，均是在项目的根目录执行。约定 `src` 目录存放源码，`build` 存放构建完成的代码，`.release` 目录存放经过压缩混淆以及 MD5 改名之后的资源，可直接用于发布到 CDN。
+* 约定 `webpack` 的 `entry`「入口文件」，
 
 ## 配置
 根据「约定大于配置」的原则，此工具及工作流程中的大部分配置都是约定好的，开发者使用仅需要在自己项目的 `package.json` 里，添加`xianyu`配置字段来自定义。
@@ -42,8 +45,8 @@ npm i -g xianyu
   "xianyu": {
     "module": "m/article",
     "port": "8080",
-    "devHost": "http://dev.weibo.cn",
-    "cdnHost": "//h5.sinaimg.cn",
+    "devHost": "http://dev.js.weibo.cn",
+    "cdnHost": "http//h5.sinaimg.cn",
     "title" : "头条文章",
     "entry": {
       "enter" : "src/js/enter.js",
@@ -51,7 +54,9 @@ npm i -g xianyu
     }
   }
 ```
-以上，除了 `entry` 即 webpack 的入口文件之外，均为可选。
+**以上，除了 `entry` 即 webpack 的入口文件之外，均为可选。**
+
+参数可通过命令行参数来配置，优先级最高，可用于临时修改测试等。具体参数列表及含义，可在对应的命令后加 `-h` 来查看帮助文档，如 `xianyu dev -h` 。
 
 ## 原理与示例
 根据上面的示例配置，假定我们配置的开发环境域名是 `http://dev.js.weibo.cn`，发布后的 CDN 域名是 `http://h5.sinaimg.cn`，我们的项目名称是 `m/article`。
@@ -74,16 +79,16 @@ server {
 
     location / {
       proxy_pass          http://127.0.0.1:8080;
-      expires             0;
-      gzip                on;
       proxy_redirect      off;
       proxy_set_header    Host              $host;
       proxy_set_header    X-Real-IP         $remote_addr;
       proxy_set_header    X-Forwarded-for   $remote_addr;
+      proxy_intercept_errors on;
+      error_page 404 = @fallbackToLocal;
       error_page 502 = @fallbackToLocal;
     }
 
-    location ~* \.(eot|ttf|woff)$ {
+    location ~* \.(eot|ttf|woff|woff2)$ {
        add_header Access-Control-Allow-Origin *;
     }
 
@@ -96,7 +101,7 @@ server {
     }
 }
 ```
-联调结束需要上线了，执行 `xianyu deploy` 后，会生成上线资源到 .release 目录。我们这一步是在 Gitlab CI 里完成的，会自动将此目录发布到 CDN，按照上面的约定，上线后资源的路径是：`http://h5.sinaimg.cn/m/article/build/enter.377e4946.js`。其中后缀 `377e4946` 是 `webpack` 自动计算的文件 MD5 的前 8 位。
+联调结束需要上线了，执行 `xianyu deploy` 后，会生成上线资源到 `.release` 目录。我们这一步是在 Gitlab CI 里完成的，会自动将此目录发布到 CDN，按照上面的约定，上线后资源的路径是：`http://h5.sinaimg.cn/m/article/build/enter.377e4946.js`。其中后缀 `377e4946` 是 `webpack` 自动计算的文件 MD5 的前 8 位。
 
 同时，会生成一个资源对应表，`webpack-assets.json`，来指定文件名和它在 CDN 上路径的对应关系。示例如下：
 ```
