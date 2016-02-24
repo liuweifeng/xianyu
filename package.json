@@ -1,6 +1,6 @@
 {
   "name": "xianyu",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "一个「约定大于配置的」Webpack 工作流程",
   "bin": {
     "xianyu": "./bin/xianyu.js"
