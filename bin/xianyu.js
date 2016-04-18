@@ -1,51 +1,52 @@
 #!/usr/bin/env node
-var path = require('path');
-var program = require('commander');
-var updateNotifier = require('update-notifier');
-var pkg = require('../package.json');
+
+'use strict';
+const program = require('commander');
+const updateNotifier = require('update-notifier');
+const pkg = require('../package.json');
 
 updateNotifier({
-    pkg
+  pkg,
 }).notify();
 
 program
-    .version(pkg.version, '-V --version');
+  .version(pkg.version, '-V --version');
 
 program
-    .command('dev')
-    .alias('watch')
-    .description('开发模式')
-    .option('-p, --port [port]', 'The dev-server port')
-    .option('-m, --module [module]', 'The dev module')
-    .option('-e, --entry [entry]', 'The entry file')
-    .option('-t, --template [template]', 'The template html file')
-    .action(require('../lib/action/dev'))
-    .on('--help', function () {
-        console.log('  Examples:');
-        console.log();
-        console.log('    $ deploy exec sequential');
-        console.log('    $ deploy exec async');
-        console.log();
-    });
+  .command('dev')
+  .alias('watch')
+  .description('开发模式')
+  .option('-p, --port [port]', 'The dev-server port')
+  .option('-m, --module [module]', 'The dev module')
+  .option('-e, --entry [entry]', 'The entry file')
+  .option('-t, --template [template]', 'The template html file')
+  .action(require('../lib/action/dev'))
+  .on('--help', function (){
+    console.log('  Examples:');
+    console.log();
+    console.log('    $ deploy exec sequential');
+    console.log('    $ deploy exec async');
+    console.log();
+  });
 
 program
-    .command('build')
-    .alias('dist')
-    .description('构建模式')
-    .option('-m, --module [module]', 'The dev module')
-    .option('-e, --entry [entry]', 'The entry file')
-    .option('-t, --template [template]', 'The template html file')
-    .action(require('../lib/action/build'));
+  .command('build')
+  .alias('dist')
+  .description('构建模式')
+  .option('-m, --module [module]', 'The dev module')
+  .option('-e, --entry [entry]', 'The entry file')
+  .option('-t, --template [template]', 'The template html file')
+  .action(require('../lib/action/build'));
 
 
 program
-    .command('deploy')
-    .alias('prod')
-    .description('发布模式')
-    .option('-m, --module [module]', 'The dev module')
-    .option('-e, --entry [entry]', 'The entry file')
-    .option('-t, --template [template]', 'The template html file')
-    .action(require('../lib/action/prod'));
+  .command('deploy')
+  .alias('prod')
+  .description('发布模式')
+  .option('-m, --module [module]', 'The dev module')
+  .option('-e, --entry [entry]', 'The entry file')
+  .option('-t, --template [template]', 'The template html file')
+  .action(require('../lib/action/prod'));
 
 program
-    .parse(process.argv);
+  .parse(process.argv);

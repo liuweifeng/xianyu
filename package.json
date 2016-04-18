@@ -13,8 +13,20 @@
     "type": "git",
     "url": "git+https://github.com/liuweifeng/xianyu.git"
   },
-  "author": "Liu Weifeng <skdlwf@163.com>",
+  "author": {
+    "name": "Liu Weifeng",
+    "email": "skdlwf@163.com",
+    "url": "https://github.com/liuweifeng"
+  },
+  "contributors": [{
+    "name": "Liu Weifeng",
+    "email": "skdlwf@163.com",
+    "url": "https://github.com/liuweifeng"
+  }],
   "license": "MIT",
+  "engines": {
+    "node": ">=4.0.0"
+  },
   "bugs": {
     "url": "https://github.com/liuweifeng/xianyu/issues"
   },
@@ -49,5 +61,11 @@
     "url-loader": "^0.5.7",
     "webpack": "^1.12.14",
     "webpack-dev-server": "^1.14.1"
+  },
+  "devDependencies": {
+    "eslint": "^2.7.0",
+    "eslint-config-airbnb": "^7.0.0",
+    "eslint-plugin-jsx-a11y": "^0.6.2",
+    "eslint-plugin-react": "^4.3.0"
   }
 }
