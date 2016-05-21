@@ -23,14 +23,14 @@ npm i -g xianyu
 
 「咸鱼」提供了三个命令来解决前端开发生命周期内的所有任务：
 
-* 开发  
-`xianyu dev`  
+* 开发
+`xianyu dev`
 使用 `webpack-dev-server`，任何前端代码的修改都不需要刷新浏览器，都可以实时地在浏览器里更新。
-* 联调  
-`xianyu build`  
+* 联调
+`xianyu build`
 构建文件到 `build`目录。方便与后端联调、测试。
-* 发布  
-`xianyu deploy`  
+* 发布
+`xianyu deploy`
 构建 hash 后的文件到 .release 目录，可直接发布到 CDN。同时生产版本号对应表，可做到前后端的分离上线。
 
 ## 约定
@@ -55,6 +55,8 @@ npm i -g xianyu
   }
 ```
 **以上，除了 `entry` 即 webpack 的入口文件之外，均为可选。**
+
+另外，得益于 `webpack-merge`, 项目根目录下的 `webpack.config.js` 里的配置会被合并到 `xianyu` 的配置里。
 
 参数可通过命令行参数来配置，优先级最高，可用于临时修改测试等。具体参数列表及含义，可在对应的命令后加 `-h` 来查看帮助文档，如 `xianyu dev -h` 。
 
