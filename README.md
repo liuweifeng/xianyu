@@ -56,7 +56,7 @@ npm i -g xianyu
 ```
 **以上，除了 `entry` 即 webpack 的入口文件之外，均为可选。**
 
-另外，得益于 `webpack-merge`, 项目根目录下的 `webpack.config.js` 里的配置会被合并到 `xianyu` 的配置里。
+另外，得益于 [`webpack-merge`](https://github.com/survivejs/webpack-merge), 项目根目录下的 `webpack.config.js` 里的配置会被合并到 `xianyu` 的配置里。
 
 参数可通过命令行参数来配置，优先级最高，可用于临时修改测试等。具体参数列表及含义，可在对应的命令后加 `-h` 来查看帮助文档，如 `xianyu dev -h` 。
 
